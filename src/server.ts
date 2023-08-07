@@ -129,6 +129,28 @@ app.get("/myprofile", async (req: Request, res: Response) => {
 });
 
 
+app.put("/myprofile/:id", async (req: Request, res: Response) => { 
+  try {
+    const id = parseInt(req.params.id);
+    const { bio, userId } = req.body;
+    const prisma = connect();
+    const updateProfile = await prisma.profile.update({
+      where: {
+        id: id,
+      },
+      data: {
+        bio,
+        userId
+      },
+    });
+    res.json(updateProfile);
+    await disconnect();
+  } catch (error:any) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
+
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at ${port}`);
 });
