@@ -99,6 +99,34 @@ app.get("/posts", async (req: Request, res: Response) => {
 });
 
 
+app.post("/myprofile", async (req: Request, res: Response) => { 
+  try {
+    const prisma = connect();
+    const { bio, userId } = req.body;
+    const profileUpdate = await prisma.profile.create({
+      data: {
+        bio,
+        userId
+      },
+    });
+    res.json(profileUpdate);
+    await disconnect();
+  } catch (error:any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.get("/myprofile", async (req: Request, res: Response) => { 
+  try {
+    const prisma = connect();
+    const allProfiles = await prisma.profile.findMany();
+    res.json(allProfiles);
+    await disconnect();
+  } catch (error:any) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 app.listen(port, async () => {
