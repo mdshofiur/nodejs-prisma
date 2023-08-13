@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// Creates a new user in the database.
 export async function userCreateService(data: { name: string, email: string, password: string }) { 
     const newUser = await prisma.user.create({
         data: {
@@ -13,98 +14,99 @@ export async function userCreateService(data: { name: string, email: string, pas
     return newUser;
 }
 
-
+// Retrieves all users from the database.
 export async function getAllUsers() {
     try {
-      const allUsers = await prisma.user.findMany();
-      return allUsers;
+        const allUsers = await prisma.user.findMany();
+        return allUsers;
     } catch (error) {
-      throw new Error("Failed to fetch users");
+        throw new Error("Failed to fetch users");
     }
-  }
+}
 
-
-  export async function deleteUserById(id: number) {
+// Deletes a user by their ID from the database.
+export async function deleteUserById(id: number) {
     try {
-      const deletedUser = await prisma.user.delete({
-        where: {
-          id: id,
-        },
-      });
-      return deletedUser;
-    } catch (error) {
-      throw new Error("Failed to delete user");
-    }
-  }
-
-
-  export async function createPost(title: string, content: string, authorId: number) {
-    try {
-      const newPost = await prisma.post.create({
-        data: {
-          title,
-          content,
-          author: {
-            connect: {
-              id: authorId,
+        const deletedUser = await prisma.user.delete({
+            where: {
+                id: id,
             },
-          },
-        },
-      });
-      return newPost;
+        });
+        return deletedUser;
     } catch (error) {
-      throw new Error("Failed to create post");
+        throw new Error("Failed to delete user");
     }
-  }
+}
 
-  export async function getAllPosts() {
+// Creates a new post in the database.
+export async function createPost(title: string, content: string, authorId: number) {
     try {
-      const allPosts = await prisma.post.findMany();
-      return allPosts;
+        const newPost = await prisma.post.create({
+            data: {
+                title,
+                content,
+                author: {
+                    connect: {
+                        id: authorId,
+                    },
+                },
+            },
+        });
+        return newPost;
     } catch (error) {
-      throw new Error("Failed to fetch posts");
+        throw new Error("Failed to create post");
     }
-  }
+}
 
-
-  export async function createProfile(bio: string, userId: number) {
+// Retrieves all posts from the database.
+export async function getAllPosts() {
     try {
-      const profileUpdate = await prisma.profile.create({
-        data: {
-          bio,
-          userId,
-        },
-      });
-      return profileUpdate;
+        const allPosts = await prisma.post.findMany();
+        return allPosts;
     } catch (error) {
-      throw new Error("Failed to create user profile");
+        throw new Error("Failed to fetch posts");
     }
-  }
+}
 
-
-  export async function getAllProfiles() {
+// Creates a new user profile in the database.
+export async function createProfile(bio: string, userId: number) {
     try {
-      const allProfiles = await prisma.profile.findMany();
-      return allProfiles;
+        const profileUpdate = await prisma.profile.create({
+            data: {
+                bio,
+                userId,
+            },
+        });
+        return profileUpdate;
     } catch (error) {
-      throw new Error("Failed to fetch profiles");
+        throw new Error("Failed to create user profile");
     }
-  }
+}
 
-
-  export async function updateProfile(id: number, bio: string, userId: number) {
+// Retrieves all user profiles from the database.
+export async function getAllProfiles() {
     try {
-      const updatedProfile = await prisma.profile.update({
-        where: {
-          id: id,
-        },
-        data: {
-          bio,
-          userId,
-        },
-      });
-      return updatedProfile;
+        const allProfiles = await prisma.profile.findMany();
+        return allProfiles;
     } catch (error) {
-      throw new Error("Failed to update profile");
+        throw new Error("Failed to fetch profiles");
     }
-  }
+}
+
+// Updates a user profile by its ID in the database.
+export async function updateProfile(id: number, bio: string, userId: number) {
+    try {
+        const updatedProfile = await prisma.profile.update({
+            where: {
+                id: id,
+            },
+            data: {
+                bio,
+                userId,
+            },
+        });
+        return updatedProfile;
+    } catch (error) {
+        throw new Error("Failed to update profile");
+    }
+}

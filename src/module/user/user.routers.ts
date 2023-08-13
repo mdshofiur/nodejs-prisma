@@ -1,25 +1,37 @@
-import express from 'express'
-import { createMyProfile, createNewPost, deleteUser, getMyProfiles, getPosts, getUsers, updateMyProfile, userCreateController } from './user.controllers'
+import express from 'express';
+import {
+  createMyProfile,
+  createNewPost,
+  deleteUser,
+  getMyProfiles,
+  getPosts,
+  getUsers,
+  updateMyProfile,
+  userCreateController
+} from './user.controllers';
 
-export const userRoute = express.Router()
+export const userRoute = express.Router();
 
+// Create a new user
+userRoute.post('/createUser', userCreateController);
 
-userRoute.post('/createUser', userCreateController)
+// Get all users
+userRoute.get('/users', getUsers);
 
-userRoute.get('/users', getUsers)
+// Delete a user by ID
+userRoute.delete('/deleteUser/:id', deleteUser);
 
-userRoute.delete('/deleteUser/:id', deleteUser)
+// Create a new post
+userRoute.post('/createPost', createNewPost);
 
-userRoute.post('/createPost', createNewPost)
+// Get all posts
+userRoute.get('/posts', getPosts);
 
-userRoute.get('/posts', getPosts)
+// Create a user profile
+userRoute.post('/myprofile', createMyProfile);
 
-userRoute.post('/myprofile', createMyProfile)
+// Get all user profiles
+userRoute.get('/myprofile', getMyProfiles);
 
-userRoute.get("/myprofile", getMyProfiles);
-
-userRoute.put("/myprofile/:id", updateMyProfile);
-
-
-
-
+// Update a user profile by ID
+userRoute.put('/myprofile/:id', updateMyProfile);
